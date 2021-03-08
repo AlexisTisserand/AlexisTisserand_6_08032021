@@ -28,11 +28,6 @@ const limiter = rateLimit({
 })
 
 
-//middleware which sanitizes user-supplied data to prevent MongoDB Operator Injection.
-const mongoSanitize = require('express-mongo-sanitize')
-
-
-
 mongoose.connect(process.env.DB_URI,
 {   
     useCreateIndex: true,
@@ -58,9 +53,6 @@ app.use((req, res, next) => {
 **GLOBAL MIDDLEWARES**
 */
 
-// Data sanitization against NoSQL query injection
-app.use(mongoSanitize()); 
-
 //A middleware to parse incoming request inputs into our req.body object
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -69,16 +61,14 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.disable('x-powered-by');
 
+//création d'un middleware qui va répondre aux requêtes envoyées à /images
+app.use('/images', express.static(path.join(__dirname, 'images'))); //__dirname qui est le nom du dossier dans le quel on est
 
 //Applique express-rate-limite à toutes les requêtes
 app.use(limiter)
 
 //Désactive la mise en cache du navigateur
 app.use(nocache());
-
-//création d'un middleware qui va répondre aux requêtes envoyées à /images
-app.use('/images', express.static(path.join(__dirname, 'images'))); //__dirname qui est le nom du dossier dans le quel on est
-
 
 /*
 **ROUTES**

@@ -15,9 +15,9 @@ const storage = multer.diskStorage({ //diskStorage permet de dire qu'on enregist
     },
     //FILENAME : quel nom de fichier utiliser
     filename: (req, file, callback) => {
-        //const name = file.originalname.split(' ').join('_'); // partie avant l'extension et supprimer les espaces
+        const name = file.originalname.split(' ').join('_'); // partie avant l'extension et supprimer les espaces
         const extension = MIME_TYPES[file.mimetype]; //création de l'extension du fichier
-        callback(null, Date.now() + '.' + extension); //génération du nom unique du fichier envoyé
+        name = name.replace(Date.now() + '.' + extension) //génération du nom unique du fichier envoyé
     }
 });
 

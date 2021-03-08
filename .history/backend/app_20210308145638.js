@@ -5,17 +5,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-const helmet = require('helmet');
 const nocache = require('nocache');
 require('dotenv').config();
-
-/*
-**IMPORT ROUTES**
-*/
-
-const sauceRoutes = require('./routes/sauce');
-const userRoutes = require('./routes/user');
-
 
 //création de l'application express
 const app = express();
@@ -27,10 +18,18 @@ const limiter = rateLimit({
     max: 100 //Limite chaque adresse IP à 100 requête par windowMs
 })
 
+//importation d'helmet
+const helmet = require('helmet');
 
 //middleware which sanitizes user-supplied data to prevent MongoDB Operator Injection.
 const mongoSanitize = require('express-mongo-sanitize')
 
+/*
+**IMPORT ROUTES**
+*/
+
+const sauceRoutes = require('./routes/sauce');
+const userRoutes = require('./routes/user');
 
 
 mongoose.connect(process.env.DB_URI,
@@ -69,16 +68,14 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.disable('x-powered-by');
 
+//création d'un middleware qui va répondre aux requêtes envoyées à /images
+app.use('/images', express.static(path.join(__dirname, 'images'))); //__dirname qui est le nom du dossier dans le quel on est
 
 //Applique express-rate-limite à toutes les requêtes
 app.use(limiter)
 
 //Désactive la mise en cache du navigateur
 app.use(nocache());
-
-//création d'un middleware qui va répondre aux requêtes envoyées à /images
-app.use('/images', express.static(path.join(__dirname, 'images'))); //__dirname qui est le nom du dossier dans le quel on est
-
 
 /*
 **ROUTES**
