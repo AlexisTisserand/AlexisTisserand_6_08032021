@@ -9,7 +9,7 @@ passwordSchema
 .has().uppercase()                              // Doit avoir au moins une majuscule
 .has().lowercase()                              // Doit avoir au moins une minuscule
 .has().digits()                                 // Doit avoir au moins un chiffre
-.is().not().oneOf(['Passw0rd', 'Password123'])  // Blacklist de valeurs à proscrire
+.is().not().oneOf(['Passw0rd', 'Password123', 'Azerty123'])  // Blacklist de valeurs à proscrire
 .has().not().spaces();                          // Pas d'espaces
 
 module.exports = passwordSchema;

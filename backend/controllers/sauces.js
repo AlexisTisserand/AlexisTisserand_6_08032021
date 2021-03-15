@@ -4,7 +4,7 @@ const Sauce = require('../models/Sauce')
 // Récupération du module 'file system' de Node qui permet de gérer les téléchargements et les modifications d'images
 const fs = require('fs')
 
-//CRÉATION NOUVELLE SAUCE
+//?CRÉATION NOUVELLE SAUCE
 exports.createSauce = (req, res, next) => {
   //On stocke dans une variable les données envoyées par le frontend en les transformant en objet js sous forme de chaine de caractères
   const sauceObject = JSON.parse(req.body.sauce);
@@ -27,7 +27,7 @@ exports.createSauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }))
 };
 
-//MODIFICATION SAUCE
+//?MODIFICATION SAUCE
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file ? // opérateur ternaire pour savoir si req.file existe ou non
   {
@@ -49,7 +49,7 @@ exports.modifySauce = (req, res, next) => {
   .catch(error => res.status(400).json({error}))
 };
 
-//SUPPRIMER SAUCE
+//?SUPPRIMER SAUCE
 exports.deleteSauce = (req, res, next) => {
   //Avant de supprimer l'objet de la base on le cherche pour obtenir l'Url de l'image (on aura donc accès au nom du fichier) et on pourra le supprimer ensuite
   Sauce.findOne({
@@ -70,18 +70,18 @@ exports.deleteSauce = (req, res, next) => {
   .catch(error => res.status(500).json({error}));
 };
 
-//RECUPERER UNE SEULE SAUCE avec un id donnée par la BDD MongoDB
+//?RECUPERER UNE SEULE SAUCE avec un id donnée par la BDD MongoDB
 exports.getOneSauce = (req, res, next) => {
   //Méthode findOne() : on lui passe l'objet de comparaison, on veut que l'id de la sauce soit le même que le paramètre de la requête
   Sauce.findOne({
-    _id: req.params.id //placer un sanitize
+    _id: req.params.id
   })
   //Si ok : on retourne une réponse et on affiche l'objet
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(400).json({ error }))
 };
 
-//RECUPERER TOUTES LES SAUCES DE LA BDD MONGODB
+//?RECUPERER TOUTES LES SAUCES DE LA BDD MONGODB
 exports.getAllSauces = (req, res, next) => {
   //méthode find() : permet d'obtenir la liste complète sous format array des sauces trouvées dans la BDD
   Sauce.find()
@@ -90,7 +90,7 @@ exports.getAllSauces = (req, res, next) => {
     .catch(error => res.status(400).json({ error }))
 };
 
-//LIKER OU DISLIKER UNE SAUCE
+//?LIKER OU DISLIKER UNE SAUCE
 exports.likeOrDislikeSauce = (req, res, next) => {
 
   const like = req.body.like
@@ -127,13 +127,13 @@ exports.likeOrDislikeSauce = (req, res, next) => {
     .then(() => res.status(200).json({message: 'Dislike ajouté !'}))
     .catch(error => res.status(400).json({error}))
     // S'il s'agit d'annuler un like ou un dislike (si on reclique sur like ou dislike)
-  } else if(like == 0) {
+  } else if(like === 0) {
     //On cherche la sauce sélectionné
     Sauce.findOne({
       _id: sauceId
     })
     .then(sauce => {
-      //Si l'utilisateur a liké la sauce
+      //Si l'utilisateur a déjà liké la sauce
       if (sauce.usersLiked.includes(userId)) {
         Sauce.updateOne({
           _id: sauceId
@@ -148,7 +148,7 @@ exports.likeOrDislikeSauce = (req, res, next) => {
         })
         .then(() => res.status(200).json({message: "Like retiré !"}))
         .catch(error => res.status(400).json({error}))
-         //Si l'utilisateur a disliké la sauce
+         //Si l'utilisateur a déjà disliké la sauce
       } else if (sauce.usersDisliked.includes(userId)) {
         Sauce.updateOne({
           _id: sauceId

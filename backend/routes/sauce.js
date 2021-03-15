@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router() //crée un router avec la méthode Router() d'express
 
-const sauceCtrl =  require('../controllers/sauces');
-const auth = require('../middleware/auth');
-const multer = require('../middleware/multer-config');
+const sauceCtrl =  require('../controllers/sauces'); //Importation du controller
+const auth = require('../middleware/auth'); //Récupère la configuration d'identification Jsonwebtoken
+const multer = require('../middleware/multer-config'); //Middleware de gestion d'images
 
 router.post('/', auth, multer, sauceCtrl.createSauce); //bien mettre multer après le middleware d'authentification
 router.put('/:id', auth, multer, sauceCtrl.modifySauce);

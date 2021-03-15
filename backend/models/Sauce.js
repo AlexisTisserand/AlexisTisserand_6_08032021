@@ -14,4 +14,5 @@ const sauceSchema = mongoose.Schema({
     usersDisliked: {type: [String], default: []},
 });
 
+// On exporte ce shéma de données, on va donc pouvoir utiliser ce modèle pour intéragir avec l'application
 module.exports = mongoose.model('Sauce', sauceSchema);
