@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     //récupérer l'identifiant après Bearer
     const token = req.headers.authorization.split(' ')[1]; 
     //vérification du token avec verify()
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET'); //RANDOM_TOKEN_SECRET doit correspondre à celui de login
+    const decodedToken = jwt.verify(token, 'process.env.JWT_TOKEN'); //RANDOM_TOKEN_SECRET doit correspondre à celui de login
     const userId = decodedToken.userId;
     //Vérifier si jamais il y a un userId avec la requête et vérifier si elle correspond bien avec celle du token
     if (req.body.userId && req.body.userId !== userId) {

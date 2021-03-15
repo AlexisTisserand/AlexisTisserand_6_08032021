@@ -8,6 +8,7 @@ const path = require('path');
 const helmet = require('helmet');
 const nocache = require('nocache');
 require('dotenv').config();
+const rateLimit = require('express-rate-limit')
 
 /*
 **IMPORT ROUTES**
@@ -17,13 +18,6 @@ const userRoutes = require('./routes/user');
 
 //création de l'application express
 const app = express();
-
-//Basic rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset.
-const rateLimit = require('express-rate-limit')
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, //15 minutes
-    max: 100 //Limite chaque adresse IP à 100 requête par windowMs
-})
 
 //middleware which sanitizes user-supplied data to prevent MongoDB Operator Injection.
 const mongoSanitize = require('express-mongo-sanitize')
@@ -66,9 +60,6 @@ app.use(bodyParser.json());
 //Helmet can help protect your app from some well-known web vulnerabilities by setting HTTP headers appropriately.
 app.use(helmet());
 app.disable('x-powered-by');
-
-//Applique express-rate-limite à toutes les requêtes
-app.use(limiter)
 
 //Désactive la mise en cache du navigateur
 app.use(nocache());
