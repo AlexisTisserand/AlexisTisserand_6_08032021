@@ -3,7 +3,7 @@
 Sixième projet du parcours "Développeur Web" proposé par OpenClassrooms. <br>
 L'objectif de ce projet était de **construire une API sécurisé pour l'application d'avis gastronomiques So Pekocko**.
 
-Plus précisément, il était demander de mettre en place un premier MVP d'une application web dans laquelle les utilisateurs inscripts pourront **ajouter leurs sauces préféréees** et **liker ou disliker** les sauces proposées par les autres.
+Plus précisément, il était demandé de mettre en place un premier MVP d'une application web dans laquelle les utilisateurs inscrits pourront **ajouter leurs sauces préféréees** et **liker ou disliker** les sauces proposées par les autres.
 
 Vous trouverez le [brief complet ici](https://s3.eu-west-1.amazonaws.com/course.oc-static.com/projects/DWJ_FR_P6/P6_Note%20de%20cadrage%20So%20Pekocko_V3.pdf) 👀
 
